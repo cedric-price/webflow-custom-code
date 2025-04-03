@@ -1,8 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
     gsap.registerPlugin(ScrollTrigger);
 
+    // Reliable Mobile Detection (Works on iPhones, Androids, iPads, etc.)
     function isMobileDevice() {
-        return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        return (
+            /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || 
+            window.innerWidth <= 767
+        );
     }
 
     function resetAnimations() {
@@ -13,7 +17,13 @@ document.addEventListener("DOMContentLoaded", function () {
     function applyAnimations() {
         resetAnimations();
 
-        if (isMobileDevice()) return; // ✅ Completely disable animations on mobile
+        // 🚀 Completely Stop GSAP from Running on Mobile 🚀
+        if (isMobileDevice()) {
+            document.querySelectorAll("[gsap]").forEach(el => {
+                gsap.set(el, { opacity: 1, x: 0, y: 0 }); // Reset any GSAP-applied styles
+            });
+            return; // Stop execution
+        }
 
         const elements = document.querySelectorAll("[gsap]");
         elements.forEach(el => {
@@ -53,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function handleHoverScaling() {
-        if (isMobileDevice()) return; // ✅ Disable hover scaling on mobile
+        if (isMobileDevice()) return; // 🚀 Disable hover scaling on mobile 🚀
 
         const scaleElements = document.querySelectorAll('[scale="true"]');
 

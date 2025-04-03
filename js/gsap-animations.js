@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", function () {
     function applyAnimations() {
         resetAnimations();
 
-        const isMobile = window.matchMedia("(max-width: 991px)").matches;
-        if (isMobile) return; // Stop animations on mobile & tablet
+        const isMobile = window.matchMedia("(max-width: 767px)").matches;
+        if (isMobile) return; // Disable animations on mobile
 
         const elements = document.querySelectorAll("[gsap]");
         elements.forEach(el => {
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function handleHoverScaling() {
-        const isMobile = window.matchMedia("(max-width: 991px)").matches;
+        const isMobile = window.matchMedia("(max-width: 767px)").matches;
         const scaleElements = document.querySelectorAll('[scale="true"]');
 
         if (isMobile) {

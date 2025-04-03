@@ -1,6 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
     gsap.registerPlugin(ScrollTrigger);
 
+    function isMobileDevice() {
+        return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
+
     function resetAnimations() {
         gsap.killTweensOf("[gsap]");
         ScrollTrigger.getAll().forEach(trigger => trigger.kill());
@@ -9,8 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function applyAnimations() {
         resetAnimations();
 
-        const isMobile = window.matchMedia("(max-width: 767px)").matches;
-        if (isMobile) return; // Disable animations on mobile
+        if (isMobileDevice()) return; // ✅ Completely disable animations on mobile
 
         const elements = document.querySelectorAll("[gsap]");
         elements.forEach(el => {
@@ -50,28 +53,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function handleHoverScaling() {
-        const isMobile = window.matchMedia("(max-width: 767px)").matches;
+        if (isMobileDevice()) return; // ✅ Disable hover scaling on mobile
+
         const scaleElements = document.querySelectorAll('[scale="true"]');
 
-        if (isMobile) {
-            scaleElements.forEach(el => {
-                gsap.set(el, { scale: 1 });
-                el.onmouseenter = null;
-                el.onmouseleave = null;
-            });
-        } else {
-            scaleElements.forEach(el => {
-                gsap.set(el, { transformOrigin: "center center" });
+        scaleElements.forEach(el => {
+            gsap.set(el, { transformOrigin: "center center" });
 
-                el.addEventListener("mouseenter", function () {
-                    gsap.to(el, { scale: 1.05, duration: 0.3, ease: "power2.out" });
-                });
-
-                el.addEventListener("mouseleave", function () {
-                    gsap.to(el, { scale: 1, duration: 0.3, ease: "power2.out" });
-                });
+            el.addEventListener("mouseenter", function () {
+                gsap.to(el, { scale: 1.05, duration: 0.3, ease: "power2.out" });
             });
-        }
+
+            el.addEventListener("mouseleave", function () {
+                gsap.to(el, { scale: 1, duration: 0.3, ease: "power2.out" });
+            });
+        });
     }
 
     applyAnimations();

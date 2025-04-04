@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function initMobileNavBehavior() {
     if (!isMobile) return;
 
-    // You can define mobile-specific scroll behavior here if needed
+    // Add mobile-specific scroll behavior here if needed
   }
 
   // ✅ Init

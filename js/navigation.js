@@ -1,18 +1,18 @@
 document.addEventListener("DOMContentLoaded", function () {
-    let nav = document.getElementById("nav-scroll");
-    let target = document.getElementById("hero-nav-menu");
+    const nav = document.getElementById("nav-scroll");
+    const target = document.getElementById("hero-nav-menu");
     let lastScrollY = window.scrollY;
-    let isMobile = window.matchMedia("(max-width: 991px)").matches; // Tablet & mobile check
+    const isMobile = window.matchMedia("(max-width: 991px)").matches;
 
     // ✅ Function 1: Initial Navbar Reveal (Desktop only)
     function initNavReveal() {
         if (!target || isMobile) return;
 
-        let observer = new IntersectionObserver(
+        const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
                     if (!entry.isIntersecting) {
-                        nav.style.transform = "translateY(0%)"; // Show navbar
+                        nav.style.transform = "translateY(0%)"; // Show navbar when hero is out of view
                     }
                 });
             },
@@ -22,30 +22,30 @@ document.addEventListener("DOMContentLoaded", function () {
         observer.observe(target);
     }
 
-    // ✅ Function 2: Hide on scroll down, show on scroll up (except at top), only on desktop
+    // ✅ Function 2: Hide on scroll down, show on scroll up, but hide at top (Desktop only)
     function handleNavScroll() {
         if (isMobile) return;
 
         window.addEventListener("scroll", function () {
-            let currentScrollY = window.scrollY;
-            let scrollThreshold = window.innerHeight * 0.5; // 50svh
+            const currentScrollY = window.scrollY;
+            const scrollThreshold = window.innerHeight * 0.5;
 
             if (currentScrollY === 0) {
-                // At top of page, keep navbar hidden
-                nav.style.transform = "translateY(-100%)";
+                // If at top of the page
+                nav.style.transform = "translateY(-100%)"; // Hide navbar
             } else if (currentScrollY > lastScrollY && currentScrollY > scrollThreshold) {
-                // Scroll down past threshold
-                nav.style.transform = "translateY(-100%)";
+                // Scrolling down
+                nav.style.transform = "translateY(-100%)"; // Hide navbar
             } else if (currentScrollY < lastScrollY) {
-                // Scroll up
-                nav.style.transform = "translateY(0%)";
+                // Scrolling up
+                nav.style.transform = "translateY(0%)"; // Show navbar
             }
 
             lastScrollY = currentScrollY;
         });
     }
 
-    // ✅ Run
+    // ✅ Run functions
     initNavReveal();
     handleNavScroll();
 });

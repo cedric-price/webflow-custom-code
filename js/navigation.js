@@ -1,56 +1,51 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const nav = document.getElementById("nav-scroll");
-  const target = document.getElementById("hero-nav-menu");
-  let lastScrollY = window.scrollY;
-  const isMobile = window.matchMedia("(max-width: 991px)").matches;
+  document.addEventListener("DOMContentLoaded", () => {
+    const nav = document.querySelector("#nav-scroll");
+    let lastScroll = window.scrollY;
+    let isDesktop = window.innerWidth >= 992;
+    let hasEntered30svh = false;
 
-  // ✅ Desktop Scroll Behavior
-  function initDesktopNavBehavior() {
-    if (!nav || !target || isMobile) return;
+    // Hide nav initially on desktop
+    if (isDesktop) {
+      nav.style.display = "none";
+    }
 
-    let isHeroInView = true;
+    window.addEventListener("scroll", () => {
+      const scrollY = window.scrollY;
+      const svh = window.innerHeight / 100;
+      const past30svh = scrollY > 30 * svh;
+      const past50svh = scrollY > 50 * svh;
+      const isScrollingDown = scrollY > lastScroll;
 
-    // Observer: Track if hero section is in the viewport
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          isHeroInView = entry.isIntersecting;
-          if (isHeroInView) {
-            nav.style.transform = "translateY(-100%)"; // Always hide when hero is visible
-          }
-        });
-      },
-      { root: null, threshold: 0 }
-    );
-
-    observer.observe(target);
-
-    // Scroll event: Show/hide navbar only if hero is NOT in view
-    window.addEventListener("scroll", function () {
-      const currentScrollY = window.scrollY;
-
-      if (!isHeroInView) {
-        if (currentScrollY > lastScrollY) {
-          nav.style.transform = "translateY(-100%)"; // Scroll down → hide
-        } else if (currentScrollY < lastScrollY) {
-          nav.style.transform = "translateY(0%)"; // Scroll up → show
+      // Desktop-only: Toggle nav visibility at 30svh
+      if (isDesktop) {
+        if (past30svh && !hasEntered30svh) {
+          hasEntered30svh = true;
+          nav.style.display = "block";
+          gsap.fromTo(nav, { y: -100, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power2.out" });
+        } else if (!past30svh && hasEntered30svh) {
+          hasEntered30svh = false;
+          gsap.to(nav, {
+            y: -100,
+            opacity: 0,
+            duration: 0.4,
+            ease: "power2.out",
+            onComplete: () => {
+              nav.style.display = "none";
+            }
+          });
+          return; // stop further logic when hiding early
         }
-      } else {
-        nav.style.transform = "translateY(-100%)"; // Hide if hero is still visible
       }
 
-      lastScrollY = currentScrollY;
+      // General scroll direction logic after 50svh (all screens)
+      if (past50svh && getComputedStyle(nav).display === "block") {
+        if (isScrollingDown) {
+          gsap.to(nav, { y: -100, opacity: 0, duration: 0.3, ease: "power2.out" });
+        } else {
+          gsap.to(nav, { y: 0, opacity: 1, duration: 0.3, ease: "power2.out" });
+        }
+      }
+
+      lastScroll = scrollY;
     });
-  }
-
-  // ✅ Mobile/Tablet Behavior (optional)
-  function initMobileNavBehavior() {
-    if (!isMobile) return;
-
-    // Add mobile-specific behavior if needed
-  }
-
-  // ✅ Init
-  initDesktopNavBehavior();
-  initMobileNavBehavior();
-});
+  });

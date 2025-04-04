@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
-    let nav = document.querySelector(".nav_1_component");
-    let target = document.querySelector(".navigation_menu");
+    let nav = document.getElementById("nav-scroll");
+    let target = document.getElementById("hero-nav-menu");
     let lastScrollY = window.scrollY;
     let isMobile = window.matchMedia("(max-width: 991px)").matches; // Check for tablet & mobile screens
 

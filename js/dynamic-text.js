@@ -1,4 +1,3 @@
-<style>
 .dynamic-container {
             display: flex;
             align-items: center;
@@ -37,4 +36,3 @@
             dynamicTexts[index].style.fontSize = fontSize + 'px';
         });
     }
-</script>

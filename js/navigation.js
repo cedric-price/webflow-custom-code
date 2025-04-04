@@ -1,4 +1,4 @@
-  document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
     const nav = document.querySelector("#nav-scroll");
     let lastScroll = window.scrollY;
     let isDesktop = window.innerWidth >= 992;

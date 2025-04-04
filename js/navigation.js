@@ -1,6 +1,12 @@
-    // ✅ Function 1: Initial Navbar Reveal (Disabled on Mobile & Tablet)
+document.addEventListener("DOMContentLoaded", function () {
+    let nav = document.getElementById("nav-scroll");
+    let target = document.getElementById("hero-nav-menu");
+    let lastScrollY = window.scrollY;
+    let isMobile = window.matchMedia("(max-width: 991px)").matches; // Tablet & mobile check
+
+    // ✅ Function 1: Initial Navbar Reveal (Desktop only)
     function initNavReveal() {
-        if (!target || isMobile) return; // Skip execution on small screens
+        if (!target || isMobile) return;
 
         let observer = new IntersectionObserver(
             (entries) => {
@@ -16,23 +22,30 @@
         observer.observe(target);
     }
 
-    // ✅ Function 2: Hide on Scroll Down, Show on Scroll Up (Works on all screen sizes)
+    // ✅ Function 2: Hide on scroll down, show on scroll up (except at top), only on desktop
     function handleNavScroll() {
+        if (isMobile) return;
+
         window.addEventListener("scroll", function () {
             let currentScrollY = window.scrollY;
-            let scrollThreshold = window.innerHeight * 0.5; // 50svh in pixels
+            let scrollThreshold = window.innerHeight * 0.5; // 50svh
 
-            if (currentScrollY > lastScrollY && currentScrollY > scrollThreshold) {
-                nav.style.transform = "translateY(-100%)"; // Hide navbar
+            if (currentScrollY === 0) {
+                // At top of page, keep navbar hidden
+                nav.style.transform = "translateY(-100%)";
+            } else if (currentScrollY > lastScrollY && currentScrollY > scrollThreshold) {
+                // Scroll down past threshold
+                nav.style.transform = "translateY(-100%)";
             } else if (currentScrollY < lastScrollY) {
-                nav.style.transform = "translateY(0%)"; // Show navbar
+                // Scroll up
+                nav.style.transform = "translateY(0%)";
             }
 
             lastScrollY = currentScrollY;
         });
     }
 
-    // ✅ Run functions
-    initNavReveal(); // This runs only on desktops
-    handleNavScroll(); // This runs on all screen sizes
+    // ✅ Run
+    initNavReveal();
+    handleNavScroll();
 });

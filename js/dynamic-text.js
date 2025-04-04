@@ -1,19 +1,3 @@
-.dynamic-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .dynamic-text {
-            white-space: nowrap;
-            font-weight: 900;
-            line-height: 1;
-        }
-</style>
-
-
-
-<script>
     window.addEventListener('DOMContentLoaded', (event) => {
         adjustTextSize();
 

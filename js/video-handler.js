@@ -5,10 +5,10 @@ document.addEventListener("DOMContentLoaded", function () {
     let videoUrl = `https://drive.google.com/uc?export=download&id=${videoId}`;
 
     let video = document.createElement("video");
-    video.setAttribute("controls", ""); 
+    video.setAttribute("controls", "");
     video.setAttribute("autoplay", "");
-    video.setAttribute("muted", ""); 
-    video.setAttribute("loop", ""); 
+    video.setAttribute("muted", "");
+    video.setAttribute("loop", "");
     video.style.width = "100%";
 
     let source = document.createElement("source");
@@ -23,22 +23,28 @@ document.addEventListener("DOMContentLoaded", function () {
   const thumbnail = document.getElementById("thumbnail");
 
   if (video && thumbnail) {
-    video.muted = true;
-
-    // Ensure the thumbnail is styled for fading
+    // Add CSS transition
     thumbnail.style.transition = "opacity 0.4s ease";
-    thumbnail.style.opacity = "1";
+
+    video.muted = true;
 
     function playVideoOnScroll(entries) {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           video.play();
+          // Fade out thumbnail
           thumbnail.style.opacity = "0";
-          thumbnail.style.pointerEvents = "none";
+          // Wait for opacity to transition, then hide
+          setTimeout(() => {
+            thumbnail.style.display = "none";
+          }, 400); // Match the transition duration
         } else {
           video.pause();
-          thumbnail.style.opacity = "1";
-          thumbnail.style.pointerEvents = "auto";
+          // Show and fade in thumbnail
+          thumbnail.style.display = "block";
+          requestAnimationFrame(() => {
+            thumbnail.style.opacity = "1";
+          });
         }
       });
     }

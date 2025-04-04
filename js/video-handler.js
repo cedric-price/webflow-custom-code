@@ -1,3 +1,4 @@
+<script>
 document.addEventListener("DOMContentLoaded", function () {
   // Handle custom video elements inside Webflow
   document.querySelectorAll("custom-element").forEach(el => {
@@ -25,23 +26,30 @@ document.addEventListener("DOMContentLoaded", function () {
   const video = document.getElementById("autoplay-video");
   const thumbnail = document.getElementById("thumbnail");
 
-  if (video) {
-    video.muted = true; // Ensure video starts muted
+  if (video && thumbnail) {
+    video.muted = true;
+
+    // Add transition styles directly to the thumbnail element
+    thumbnail.style.transition = "opacity 0.4s ease";
+    thumbnail.style.opacity = "1";
 
     function playVideoOnScroll(entries) {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           video.play();
-          thumbnail.style.display = "none"; // Hide thumbnail when video plays
+          thumbnail.style.opacity = "0";
+          thumbnail.style.pointerEvents = "none";
         } else {
           video.pause();
-          thumbnail.style.display = "block"; // Show thumbnail when video stops
+          thumbnail.style.opacity = "1";
+          thumbnail.style.pointerEvents = "auto";
         }
       });
     }
 
-    // Create Intersection Observer to detect when video enters viewport
+    // Create Intersection Observer
     const observer = new IntersectionObserver(playVideoOnScroll, { threshold: 0.5 });
     observer.observe(video);
   }
 });
+</script>

@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Handle custom video elements inside Webflow
   document.querySelectorAll("custom-element").forEach(el => {
     let videoId = el.getAttribute("data-video-id");
     let videoUrl = `https://drive.google.com/uc?export=download&id=${videoId}`;
@@ -23,7 +22,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const thumbnail = document.getElementById("thumbnail");
 
   if (video && thumbnail) {
-    // Add CSS transition
+    // Set default style
+    thumbnail.style.opacity = "1";
     thumbnail.style.transition = "opacity 0.4s ease";
 
     video.muted = true;
@@ -32,16 +32,23 @@ document.addEventListener("DOMContentLoaded", function () {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           video.play();
-          // Fade out thumbnail
+
+          // Step 1: Fade out with opacity
           thumbnail.style.opacity = "0";
-          // Wait for opacity to transition, then hide
-          setTimeout(() => {
+
+          // Step 2: After opacity transition ends, hide it
+          thumbnail.addEventListener("transitionend", handleFadeOut, { once: true });
+
+          function handleFadeOut() {
             thumbnail.style.display = "none";
-          }, 400); // Match the transition duration
+          }
         } else {
           video.pause();
-          // Show and fade in thumbnail
+
+          // Step 1: Show thumbnail immediately
           thumbnail.style.display = "block";
+
+          // Step 2: Wait for it to be shown, then fade in
           requestAnimationFrame(() => {
             thumbnail.style.opacity = "1";
           });

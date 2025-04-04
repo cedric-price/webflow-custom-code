@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let isHeroInView = true;
 
+    // Observer: Track if hero section is in the viewport
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -24,15 +25,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     observer.observe(target);
 
+    // Scroll event: Show/hide navbar only if hero is NOT in view
     window.addEventListener("scroll", function () {
       const currentScrollY = window.scrollY;
 
       if (!isHeroInView) {
         if (currentScrollY > lastScrollY) {
           nav.style.transform = "translateY(-100%)"; // Scroll down → hide
-        } else {
+        } else if (currentScrollY < lastScrollY) {
           nav.style.transform = "translateY(0%)"; // Scroll up → show
         }
+      } else {
+        nav.style.transform = "translateY(-100%)"; // Hide if hero is still visible
       }
 
       lastScrollY = currentScrollY;
@@ -43,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function initMobileNavBehavior() {
     if (!isMobile) return;
 
-    // Add mobile-specific scroll behavior here if needed
+    // Add mobile-specific behavior if needed
   }
 
   // ✅ Init

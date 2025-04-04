@@ -1,4 +1,3 @@
-<script>
   document.addEventListener("DOMContentLoaded", function () {
     const nav = document.getElementById("nav-scroll");
     let lastScrollY = window.scrollY;
@@ -20,4 +19,3 @@
       lastScrollY = currentScrollY;
     });
   });
-</script>

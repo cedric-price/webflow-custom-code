@@ -1,16 +1,6 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const isMobile = window.matchMedia("(max-width: 991px)").matches;
-
-    // Skip everything if it's mobile/tablet
-    if (isMobile) return;
-
-    let nav = document.getElementById("nav-scroll");
-    let target = document.getElementById("hero-nav-menu");
-    let lastScrollY = window.scrollY;
-
-    // ✅ Function 1: Initial Navbar Reveal
+    // ✅ Function 1: Initial Navbar Reveal (Disabled on Mobile & Tablet)
     function initNavReveal() {
-        if (!target) return;
+        if (!target || isMobile) return; // Skip execution on small screens
 
         let observer = new IntersectionObserver(
             (entries) => {
@@ -26,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
         observer.observe(target);
     }
 
-    // ✅ Function 2: Hide on Scroll Down, Show on Scroll Up
+    // ✅ Function 2: Hide on Scroll Down, Show on Scroll Up (Works on all screen sizes)
     function handleNavScroll() {
         window.addEventListener("scroll", function () {
             let currentScrollY = window.scrollY;
@@ -42,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // ✅ Run functions (Desktop only)
-    initNavReveal();
-    handleNavScroll();
+    // ✅ Run functions
+    initNavReveal(); // This runs only on desktops
+    handleNavScroll(); // This runs on all screen sizes
 });

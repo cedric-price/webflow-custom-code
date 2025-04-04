@@ -8,30 +8,34 @@ body {
 
 /* Focus state style for keyboard navigation for the focusable elements */
 *[tabindex]:focus-visible,
-  input[type="file"]:focus-visible {
-   outline: 0.125rem solid #4d65ff;
-   outline-offset: 0.125rem;
+input[type="file"]:focus-visible {
+  outline: 0.125rem solid #4d65ff;
+  outline-offset: 0.125rem;
 }
 
 /* Set color style to inherit */
 .inherit-color * {
-    color: inherit;
+  color: inherit;
 }
 
 /* Get rid of top margin on first element in any rich text element */
-.w-richtext > :not(div):first-child, .w-richtext > div:first-child > :first-child {
+.w-richtext > :not(div):first-child,
+.w-richtext > div:first-child > :first-child {
   margin-top: 0 !important;
 }
 
 /* Get rid of bottom margin on last element in any rich text element */
-.w-richtext>:last-child, .w-richtext ol li:last-child, .w-richtext ul li:last-child {
-	margin-bottom: 0 !important;
+.w-richtext > :last-child,
+.w-richtext ol li:last-child,
+.w-richtext ul li:last-child {
+  margin-bottom: 0 !important;
 }
 
-
 /* Make sure containers never lose their center alignment */
-.container-medium,.container-small, .container-large {
-	margin-right: auto !important;
+.container-medium,
+.container-small,
+.container-large {
+  margin-right: auto !important;
   margin-left: auto !important;
 }
 
@@ -57,18 +61,18 @@ a,
 
 /* Apply "..." after 3 lines of text */
 .text-style-3lines {
-	display: -webkit-box;
-	overflow: hidden;
-	-webkit-line-clamp: 3;
-	-webkit-box-orient: vertical;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 
 /* Apply "..." after 2 lines of text */
 .text-style-2lines {
-	display: -webkit-box;
-	overflow: hidden;
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 /* These classes are never overwritten */
@@ -77,32 +81,33 @@ a,
 }
 
 @media screen and (max-width: 991px) {
-    .hide, .hide-tablet {
-        display: none !important;
-    }
+  .hide,
+  .hide-tablet {
+    display: none !important;
+  }
 }
-  @media screen and (max-width: 767px) {
-    .hide-mobile-landscape{
-      display: none !important;
-    }
+@media screen and (max-width: 767px) {
+  .hide-mobile-landscape {
+    display: none !important;
+  }
 }
-  @media screen and (max-width: 479px) {
-    .hide-mobile{
-      display: none !important;
-    }
+@media screen and (max-width: 479px) {
+  .hide-mobile {
+    display: none !important;
+  }
 }
- 
+
 .margin-0 {
   margin: 0rem !important;
 }
-  
+
 .padding-0 {
   padding: 0rem !important;
 }
 
 .spacing-clean {
-padding: 0rem !important;
-margin: 0rem !important;
+  padding: 0rem !important;
+  margin: 0rem !important;
 }
 
 .margin-top {
@@ -116,7 +121,7 @@ margin: 0rem !important;
   padding-bottom: 0rem !important;
   padding-left: 0rem !important;
 }
-  
+
 .margin-right {
   margin-top: 0rem !important;
   margin-bottom: 0rem !important;
@@ -146,13 +151,13 @@ margin: 0rem !important;
   margin-right: 0rem !important;
   margin-bottom: 0rem !important;
 }
-  
+
 .padding-left {
   padding-top: 0rem !important;
   padding-right: 0rem !important;
   padding-bottom: 0rem !important;
 }
-  
+
 .margin-horizontal {
   margin-top: 0rem !important;
   margin-bottom: 0rem !important;
@@ -167,13 +172,13 @@ margin: 0rem !important;
   margin-right: 0rem !important;
   margin-left: 0rem !important;
 }
-  
+
 .padding-vertical {
   padding-right: 0rem !important;
   padding-left: 0rem !important;
 }
-.marquee-wrapper {
-}
+
+.marquee-wrapper {}
 
 .marquee-content {
   animation: marquee 30s linear infinite;
@@ -188,46 +193,40 @@ margin: 0rem !important;
   }
 }
 
- /* Apply Poppins font to placeholder text */
-  input::placeholder,
-  textarea::placeholder {
-    font-family: "Poppins", sans-serif !important;
-    color: #999; /* Adjust color if needed */
-    font-weight: 400; /* Adjust weight if needed */
-    opacity: 1; /* Ensure visibility */
-  }
-
-  /* WebKit Browsers (Chrome, Safari) */
-  input::-webkit-input-placeholder,
-  textarea::-webkit-input-placeholder {
-    font-family: "Poppins", sans-serif !important;
-  }
-
-  /* Mozilla Firefox */
-  input::-moz-placeholder,
-  textarea::-moz-placeholder {
-    font-family: "Poppins", sans-serif !important;
-  }
-
-  /* Microsoft Edge */
-  input:-ms-input-placeholder,
-  textarea:-ms-input-placeholder {
-    font-family: "Poppins", sans-serif !important;
-  }
-
-  /* Internet Explorer */
-  input:-moz-placeholder,
-  textarea:-moz-placeholder {
-    font-family: "Poppins", sans-serif !important;
-  }
-a, .w-inline-block {
-    text-decoration: none !important;
+/* Apply Poppins font to placeholder text */
+input::placeholder,
+textarea::placeholder {
+  font-family: "Poppins", sans-serif !important;
+  color: #999;
+  font-weight: 400;
+  opacity: 1;
 }
-    /* Only apply on desktop (min-width: 992px) */
-    @media (min-width: 992px) {
-        .nav_1_component {
-            transform: translateY(-100%);
-            transition: transform 0.3s ease-in-out;
-        }
-    }
 
+/* WebKit Browsers (Chrome, Safari) */
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+  font-family: "Poppins", sans-serif !important;
+}
+
+/* Mozilla Firefox */
+input::-moz-placeholder,
+textarea::-moz-placeholder {
+  font-family: "Poppins", sans-serif !important;
+}
+
+/* Microsoft Edge */
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+  font-family: "Poppins", sans-serif !important;
+}
+
+/* Internet Explorer */
+input:-moz-placeholder,
+textarea:-moz-placeholder {
+  font-family: "Poppins", sans-serif !important;
+}
+
+a,
+.w-inline-block {
+  text-decoration: none !important;
+}

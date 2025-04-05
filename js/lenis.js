@@ -1,17 +1,26 @@
-import Lenis from 'https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.41/dist/lenis.min.mjs';
-
-// ✅ Initialize Lenis Smooth Scroll
-const lenis = new Lenis({
-    duration: 1.2,
-    smoothWheel: true,
-    smoothTouch: false, // Disable smooth scroll on touch devices
+let lenis = new Lenis({
+  lerp: 0.1,
+  wheelMultiplier: 0.7,
+  gestureOrientation: "vertical",
+  normalizeWheel: false,
+  smoothTouch: false,
 });
-
-// ✅ Function to keep Lenis running
 function raf(time) {
-    lenis.raf(time * 1000);
-    requestAnimationFrame(raf);
+  lenis.raf(time);
+  requestAnimationFrame(raf);
 }
 requestAnimationFrame(raf);
-
-export default lenis;
+$("[data-lenis-start]").on("click", function () {
+  lenis.start();
+});
+$("[data-lenis-stop]").on("click", function () {
+  lenis.stop();
+});
+$("[data-lenis-toggle]").on("click", function () {
+  $(this).toggleClass("stop-scroll");
+  if ($(this).hasClass("stop-scroll")) {
+    lenis.stop();
+  } else {
+    lenis.start();
+  }
+});

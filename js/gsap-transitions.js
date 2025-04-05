@@ -7,33 +7,41 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function applyAnimations() {
+        resetAnimations(); // Clear existing animations
+
         const isMobile = window.matchMedia("(max-width: 991px)").matches;
-        if (isMobile) return; // Exit if on mobile or tablet
-
-        resetAnimations(); // Ensure no duplicate animations
-
         const elements = document.querySelectorAll("[gsap]");
 
         elements.forEach(el => {
+            const isDesktop = !isMobile;
+            const hasMobileAnim = el.getAttribute("mobile-animation") === "true";
             const isStandard = el.getAttribute("animation") === "standard";
 
-            // Set animation values
-            let offset = isStandard ? 100 : parseFloat(el.getAttribute("data-offset")) || 100;
-            let delay = isStandard ? 0 : parseFloat(el.getAttribute("data-delay")) || 0;
-            let time = isStandard ? 0.5 : parseFloat(el.getAttribute("data-time")) || 1;
-            let direction = isStandard ? "bottom" : el.getAttribute("data-direction") || "left";
+            // Skip animation unless it's:
+            // - Desktop
+            // - OR Mobile + mobile-animation="true"
+            if (!(isDesktop || hasMobileAnim)) return;
 
-            // Define initial position based on direction
+            // Use standard animation logic either way
+            const useStandard = isStandard || hasMobileAnim;
+
+            // Animation values
+            let offset = useStandard ? 100 : parseFloat(el.getAttribute("data-offset")) || 100;
+            let delay = useStandard ? 0 : parseFloat(el.getAttribute("data-delay")) || 0;
+            let time = useStandard ? 0.5 : parseFloat(el.getAttribute("data-time")) || 1;
+            let direction = useStandard ? "bottom" : el.getAttribute("data-direction") || "left";
+
+            // From vars based on direction
             let fromVars = { opacity: 0 };
             if (direction === "left") fromVars.x = -offset;
             if (direction === "right") fromVars.x = offset;
             if (direction === "up") fromVars.y = -offset;
             if (direction === "down" || direction === "bottom") fromVars.y = offset;
 
-            // Ensure element starts in original position
+            // Set initial position
             gsap.set(el, fromVars);
 
-            // Animate with GSAP when element enters viewport
+            // Animate in
             gsap.fromTo(
                 el,
                 fromVars,
@@ -53,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
             );
         });
 
-        ScrollTrigger.refresh(); // Ensure new triggers are recognized
+        ScrollTrigger.refresh();
     }
 
     function handleHoverScaling() {
@@ -61,14 +69,12 @@ document.addEventListener("DOMContentLoaded", function () {
         const scaleElements = document.querySelectorAll('[scale="true"]');
 
         if (isMobile) {
-            // Disable scaling on mobile & tablet
             scaleElements.forEach(el => {
                 gsap.set(el, { scale: 1 });
                 el.onmouseenter = null;
                 el.onmouseleave = null;
             });
         } else {
-            // Enable scaling on desktop
             scaleElements.forEach(el => {
                 gsap.set(el, { transformOrigin: "center center" });
 
@@ -83,15 +89,16 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Run on page load and on resize
+    // Initial run
     applyAnimations();
     handleHoverScaling();
 
+    // Debounced resize handling
     let resizeTimeout;
     window.addEventListener("resize", () => {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(() => {
-            applyAnimations(); // Only runs if screen is desktop
+            applyAnimations();
             handleHoverScaling();
         }, 200);
     });
